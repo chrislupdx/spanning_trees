@@ -1,4 +1,4 @@
-//This is the interface page
+//This is an implementation of Prim's
 let fs = require('fs');
 
 //returns an adjacency matrix represented as an object. 
@@ -11,10 +11,30 @@ function parseText()
     for(let i = 0; i < arrData.length; i++)
     {
         cleaned[i] = arrData[i].split(" ");
+        cleaned[i].unshift(null);
     }
-    //console.log(cleaned[0][]); //accessible like this
+    //add a 
     return cleaned;
 }
 
+function prims(data)
+{
+    console.log(data);
+    const mst = [];
+  
+    for(let i = 1; i < data.length; i++)
+    {
+        //let shortEdge = findV(); //not sure what it needs to do that yet
+
+    }
+    //for 
+}
+
+//scans for shortest vertex 
+//function findV(name, data)
+//{
+//    //searches for all of the names in data
+//}
 
 let data = parseText();
+prims(data);
