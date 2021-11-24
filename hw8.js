@@ -21,53 +21,21 @@ function parseText()
 //note: is data even an edge list? 20:09
 function adjList(data)
 {
-    //console.log(data);
-    //let list = {}; //
     let list = new Object();
-    //let list= [];
-    //data[i][1] is address_1
-    //iterate through data from position 0 to data.length
-    //create an Address for each unique first_address
-    //for each item that shares the same first_address
-    //insert that item into the definition of Addressa  
-    //fills lists's keys out as the name of the individual cities
-    //for(let i = 0; i < (data.length ); i++)
-    //{
-    //    //console.log(i);
-    //    //let key = data[i][1]
-    //    list[data[i][1]] = "";
-    //    //if(data[i][1] 
-    //}
-
+    
     //for each unique key
     for(let i = 0; i < data.length; i++)
     {
-        //enmerate through the list
-        //if it matches the literal key
-        //if(data[i][1] == key)
-        //{
-        //    //add data[i] to this key's definition 
-        //}
-
-        //dot notation
-        //let array = [];
         if(data[i][1] in list)
         {
-            //console.log(data[i][1], "is in list");
-            //append data[i][1] into list 
-            //array.push(data[i]);
             list[data[i][1]].push(data[i]);
         }
         else //produce a new defintion
         {
-            //list[data[i][1]] = array;
             list[data[i][1]] = [];
             list[data[i][1]].push(data[i]);
         }
     }
-
-    //object vs map vs array lol
-
     console.log(list); 
     console.log("list is long: ", Object.keys(list).length);
 }
