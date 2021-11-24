@@ -54,9 +54,10 @@ function prims(adjList)
     let data = adjList;
     const keys = Object.keys(data); //grabs a random vertex
     const rand_city = keys[Math.floor(Math.random() * keys.length)];
-
     //how are you representing your MST?
     let mst = new Object(); //initialize mst with a random vertex, mark that vertex as visited
+
+
     mst[rand_city] = adjList[rand_city];
     data[rand_city].visited = true; //mark our starting vertex on the adjacency list
 
@@ -71,29 +72,6 @@ function prims(adjList)
         }
     }
     
-    //let next_city; //find the array that shortest_len is from
-    //for(let i = 0; i < mst[rand_city].length; i++) 
-    //{
-    //    if(shortest_len == mst[rand_city][i][3])
-    //    {
-    //        next_city = mst[rand_city][i];
-    //    }
-    //    console.log(mst[rand_city][i]);
-    //}
-    
-    //mark rand_city's paths 
-
-
-    //loop through and print the edges with this length
-    //let mst_vals = Object.values(mst);
-    //let shortest_path; 
-    //console.log(mst_vals);
-    ////the - 1 to exclude the visited flag
-    //for(let i = 0; i < (mst_vals - 1); i++)
-    //{
-
-    //}
-
     let shortest_vertex;
     let next_city;
     
@@ -112,39 +90,43 @@ function prims(adjList)
         }
         //console.log(mst[rand_city][i]);
     }
-   
-    //trying to go through all definitions
+    
     for(vertex in mst)
     {
-        //go through every single array entry in ONE mst definition
+        //go through every single array entry in each mst definition
         for(let i = 0; i < mst[vertex].length; i++)
         {
-            //mark off rand 
-            if(mst[vertex] == mst[rand_city])
+            if(mst[vertex] == mst[rand_city]) //if we are in the origin vertex's 
             {
                 if(mst[vertex][i][2] == next_city)
                 {
                     mst[vertex][i][0] = 1;
-                    //console.log(mst[vertex][i]);
                 }
             }
 
             if(mst[vertex] == mst[next_city])
             {
-
                 if(mst[vertex][i][2] == rand_city)
                 {
                     mst[vertex][i][0] = 1;
-                    //console.log(mst[vertex][i]);
                 }
             }
         }
     }
 
+    //repeat
+
+
     console.log("mst is ");
     console.log(mst);
     console.log("rand city ", rand_city);
     console.log("next city ", next_city);
+}
+
+//this function 
+function primrecurr(mst, data)
+{
+
 }
 
 //scans for shortest vertex 
