@@ -45,17 +45,18 @@ function prims(adjList)
     let mst = new Object(); //initialize mst with a random vertex, mark it as visited
     mst[prop] = adjList[prop];
     data[prop].visited = true; //mark our starting vertex on the adjacency list
-    
+   
+    //find the shortest path 
     let shortest = Number.POSITIVE_INFINITY;
     for(let i = 0; i < mst[prop].length; i++)
     {
-        console.log(mst[prop][i][3]);
         shortest = Math.min(shortest, mst[prop][i][3]);
     }
+
+    //grab the vertex correponsding to shortest
+    
 }
 
-function kruskal(adjList)
-{}
 //scans for shortest vertex 
 //function findV(name, data)
 //{
