@@ -5,4 +5,9 @@
 - Implement Prim's
 - refamiliarize yourself with Kruskal's
 - implement Kruskal's
-- design an adjacency list using an object in js
+- design an adjacency list using an object in 
+- produce graphs of different sizes
+    -different number of cities
+    - different number of paths 
+    - different number of lengths (is this significant)
+-prims': random vertex selection
