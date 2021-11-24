@@ -68,13 +68,12 @@ function prims(adjList)
         {
             data[rand_city].visited = true;
             next_city = mst[rand_city][i][2]; //grab the name of our next city
-            //let next_city = mst[rand_city][i][2]; //grab the name of our next city
             mst[next_city] = data[next_city]; //create a key,val pair in mst(add the city)
+            data[next_city].visited = true; 
+            
             //mark the right definition in data as visitited
-
             //mark in rand_city's path to next_city as 1
             //mark in next_city's path to rand_city's path as 1
-
 
         }
     }
