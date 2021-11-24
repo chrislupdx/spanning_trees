@@ -5,6 +5,7 @@ let fs = require('fs');
 function parseText()
 {
     const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/city-pairs.txt', "utf8"); //parse the file
+    //const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/text.txt', "utf8"); //parse the file
     const arrData = fileData.split("\n");  //parse this into an array by newline character
     const cleaned = [];
     for(let i = 0; i < (arrData.length - 1); i++)
@@ -61,6 +62,7 @@ function prims(adjList)
     mst[rand_city] = adjList[rand_city];
     data[rand_city].visited = true; //mark our starting vertex on the adjacency list
 
+    //-----------------------------------------------------------------------
     //find the array with the shortest path/edge around the MST
     let shortest_len = Number.POSITIVE_INFINITY;
     //search a single vertex in the MST(we need to scale this for all vertices in the mst)
@@ -84,14 +86,11 @@ function prims(adjList)
             next_city = mst[rand_city][i][2]; //grab the name of our next city
             mst[next_city] = data[next_city]; //create a key,val pair in mst(add the city)
             data[next_city].visited = true; 
-            //mark the right definition in data as visitited
-            //mark in rand_city's path to next_city as 1
-            //mark in next_city's path to rand_city's path as 1
+            break;
         }
-        //console.log(mst[rand_city][i]);
     }
     
-    for(vertex in mst)
+    for(vertex in mst) //this chunk marks off the paths from null->1
     {
         //go through every single array entry in each mst definition
         for(let i = 0; i < mst[vertex].length; i++)
@@ -113,10 +112,9 @@ function prims(adjList)
             }
         }
     }
+    //----------------------------------------------------------------------------------:w
 
     //repeat
-
-
     console.log("mst is ");
     console.log(mst);
     console.log("rand city ", rand_city);
