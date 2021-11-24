@@ -5,3 +5,4 @@
 - Implement Prim's
 - refamiliarize yourself with Kruskal's
 - implement Kruskal's
+- design an adjacency list using an object in js
