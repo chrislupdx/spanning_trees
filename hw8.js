@@ -1,7 +1,7 @@
 //This is an implementation of Prim's
 let fs = require('fs');
-//returns an edge list represented as an object. 
-//we can access it like this: data[x][y], where x is the line item, y=0 is to_vertex, y=1 from_vertex, y=2 is edge weigth
+
+//returns an edge list represented as an object. we can access it like this: data[x][y], where x is the line item, y=0 is to_vertex, y=1 from_vertex, y=2 is edge weigth
 function parseText()
 {
     const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/city-pairs.txt', "utf8"); //parse the file
@@ -17,11 +17,9 @@ function parseText()
 }
 
 //converts a vertex list into an adjacency list
-//note: is data even an edge list? 20:09
 function adjList(data)
 {
     let list = new Object();
-    
     for(let i = 0; i < data.length; i++)
     {
         if(data[i][1] in list) //if data[i][1] exists as a key in list
@@ -35,49 +33,25 @@ function adjList(data)
             list[data[i][1]].visited = false;
         }
     }
-    //console.log(list); 
-    //console.log("list is long: ", Object.keys(list).length);
     return list
 }
 
 function prims(adjList)
 {
     let data = adjList;
-    //grabs a random vertex
-    const keys = Object.keys(data);
+    const keys = Object.keys(data); //grabs a random vertex
     const prop = keys[Math.floor(Math.random() * keys.length)];
    
-    //initialize mst with a random vertex, mark it as visited
-    let mst = new Object(); 
+    let mst = new Object(); //initialize mst with a random vertex, mark it as visited
     mst[prop] = adjList[prop];
     data[prop].visited = true; //mark our starting vertex on the adjacency list
     
-    //console.log(data);
-    //console.log("startin vertex is ", prop);
-    
-    //pick a random key 
-    //var randomVertex = function (adjList) {
-    //    var keys = Object.keys(adjList);
-    //    return adjList[keys[ keys.length * Math.random() << 0]];
-    //};
-    //console.log(randomVertex());
-    
-    //select a vertex
-    //if(list[data[0][1].visited == false)
-    //{
-    //    //the data[0][1] is the initial vertex of the mst 
-    //    mst[0] = data[0][1];
-    //}
-    //else
-    //{
-    //    console.log("data[0][1].visited is true");
-    //}
-    //console.log(mst);
-    //console.log(adjList);
-    //for(let i = 1; i < data.length; i++)
-    //{
-    //    //let shortEdge = findV(); //not sure what it needs to do that yet
-    //}
+    let shortest = Number.POSITIVE_INFINITY;
+    for(let i = 0; i < mst[prop].length; i++)
+    {
+        console.log(mst[prop][i][3]);
+        shortest = Math.min(shortest, mst[prop][i][3]);
+    }
 }
 
 function kruskal(adjList)
