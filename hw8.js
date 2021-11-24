@@ -40,21 +40,38 @@ function prims(adjList)
 {
     let data = adjList;
     const keys = Object.keys(data); //grabs a random vertex
-    const prop = keys[Math.floor(Math.random() * keys.length)];
-   
-    let mst = new Object(); //initialize mst with a random vertex, mark it as visited
-    mst[prop] = adjList[prop];
-    data[prop].visited = true; //mark our starting vertex on the adjacency list
-   
-    //find the shortest path 
+    const rand_vertex = keys[Math.floor(Math.random() * keys.length)];
+
+    //how are you representing your MST?
+    let mst = new Object(); //initialize mst with a random vertex, mark that vertex as visited
+
+    mst[rand_vertex] = adjList[rand_vertex];
+    data[rand_vertex].visited = true; //mark our starting vertex on the adjacency list
+
+    //find the array with the shortest path/edge around the MST
     let shortest = Number.POSITIVE_INFINITY;
-    for(let i = 0; i < mst[prop].length; i++)
+
+    //search a single vertex in the MST(we need to scale this for all vertices in the mst)
+    for(vertex in mst)
     {
-        shortest = Math.min(shortest, mst[prop][i][3]);
+        for(let i = 0; i < mst[rand_vertex].length; i++)
+        {
+            shortest = Math.min(shortest, mst[rand_vertex][i][3]);
+        }
     }
 
-    //grab the vertex correponsding to shortest
-    
+    let shortest_vertex;
+    //grab the vertex+path we just found
+    for(let i = 0; i < mst[rand_vertex].length; i++) //wait by mst?
+    {
+        if(mst[prop][i][3] == shortest)
+        {
+            console.log(mst[prop][i]);
+            //add the corresponding city to mst as a definition
+            //mark the right definition in data as visitited
+        }
+    }
+
 }
 
 //scans for shortest vertex 

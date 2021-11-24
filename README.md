@@ -10,4 +10,5 @@
     -different number of cities
     - different number of paths 
     - different number of lengths (is this significant)
--prims': random vertex selection
+- prims': random vertex selection
+- figure out where in prims do we design a recursive(or iterative implemenation?)
