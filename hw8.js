@@ -36,6 +36,19 @@ function adjList(data)
     return list
 }
 
+function arrayEquals(a, b)
+{
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
+
+    for(let i = 0; i < a.length; i++)
+    {
+        if (a[i] !== b[i]) return false;
+    }
+    return true;
+}
+
 function prims(adjList)
 {
     let data = adjList;
@@ -58,15 +71,18 @@ function prims(adjList)
         }
     }
     
-    let next_city;
-    for(let i = 0; i < mst[rand_city].length; i++) 
-    {
-        if(shortest_len == mst[rand_city][i][3])
-        {
-            //console.log("our next city is", mst[rand_city][i]);
-            next_city = mst[rand_city][i];
-        }
-    }
+    //let next_city; //find the array that shortest_len is from
+    //for(let i = 0; i < mst[rand_city].length; i++) 
+    //{
+    //    if(shortest_len == mst[rand_city][i][3])
+    //    {
+    //        next_city = mst[rand_city][i];
+    //    }
+    //    console.log(mst[rand_city][i]);
+    //}
+    
+    //mark rand_city's paths 
+
 
     //loop through and print the edges with this length
     //let mst_vals = Object.values(mst);
@@ -78,27 +94,57 @@ function prims(adjList)
 
     //}
 
-    //let shortest_vertex;
-    //let next_city;
-    ////grab the vertex+path we just found
-    //for(let i = 0; i < mst[rand_city].length; i++) //wait by mst?
-    //{
-    //    if(mst[rand_city][i][3] == shortest_len)
-    //    {
-    //        data[rand_city].visited = true;
-    //        next_city = mst[rand_city][i][2]; //grab the name of our next city
-    //        mst[next_city] = data[next_city]; //create a key,val pair in mst(add the city)
-    //        data[next_city].visited = true; 
+    let shortest_vertex;
+    let next_city;
+    
+    //grab the vertex+path we just found
+    for(let i = 0; i < mst[rand_city].length; i++)
+    {
+        if(mst[rand_city][i][3] == shortest_len)
+        {
+            data[rand_city].visited = true;
+            next_city = mst[rand_city][i][2]; //grab the name of our next city
+            mst[next_city] = data[next_city]; //create a key,val pair in mst(add the city)
+            data[next_city].visited = true; 
+            //mark the right definition in data as visitited
+            //mark in rand_city's path to next_city as 1
+            //mark in next_city's path to rand_city's path as 1
+        }
+        //console.log(mst[rand_city][i]);
+    }
+   
+    //trying to go through all definitions
+    for(vertex in mst)
+    {
+        //go through every single array entry in ONE mst definition
+        for(let i = 0; i < mst[vertex].length; i++)
+        {
+            //mark off rand 
+            if(mst[vertex] == mst[rand_city])
+            {
+                if(mst[vertex][i][2] == next_city)
+                {
+                    mst[vertex][i][0] = 1;
+                    //console.log(mst[vertex][i]);
+                }
+            }
 
-    //        //mark the right definition in data as visitited
-    //        //mark in rand_city's path to next_city as 1
-    //        //mark in next_city's path to rand_city's path as 1
-    //    }
-    //}
+            if(mst[vertex] == mst[next_city])
+            {
+
+                if(mst[vertex][i][2] == rand_city)
+                {
+                    mst[vertex][i][0] = 1;
+                    //console.log(mst[vertex][i]);
+                }
+            }
+        }
+    }
+
     console.log("mst is ");
     console.log(mst);
-    //console.log("rand city ", rand_city);
-    //console.log("next city ", next_city);
+    console.log("rand city ", rand_city);
+    console.log("next city ", next_city);
 }
 
 //scans for shortest vertex 
