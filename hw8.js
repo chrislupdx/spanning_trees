@@ -42,9 +42,19 @@ function adjList(data)
 
 function prims(adjList)
 {
-    //console.log(adjList);
-    const mst = new Object(); //how does this want to be represented
-  
+    let data = adjList;
+    //grabs a random vertex
+    const keys = Object.keys(data);
+    const prop = keys[Math.floor(Math.random() * keys.length)];
+   
+    //initialize mst with a random vertex, mark it as visited
+    let mst = new Object(); 
+    mst[prop] = adjList[prop];
+    data[prop].visited = true; //mark our starting vertex on the adjacency list
+    
+    //console.log(data);
+    //console.log("startin vertex is ", prop);
+    
     //pick a random key 
     //var randomVertex = function (adjList) {
     //    var keys = Object.keys(adjList);
@@ -63,9 +73,7 @@ function prims(adjList)
     //    console.log("data[0][1].visited is true");
     //}
     //console.log(mst);
-
     //console.log(adjList);
-
     //for(let i = 1; i < data.length; i++)
     //{
     //    //let shortEdge = findV(); //not sure what it needs to do that yet
