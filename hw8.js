@@ -50,87 +50,53 @@ function arrayEquals(a, b)
     return true;
 }
 
+//once again, more general
+function prim1(adJList)
+{
+    
+
+
+}
+
 function prims(adjList)
 {
     let data = adjList;
     const keys = Object.keys(data); //grabs a random vertex
     const rand_city = keys[Math.floor(Math.random() * keys.length)];
+
     //how are you representing your MST?
     let mst = new Object(); //initialize mst with a random vertex, mark that vertex as visited
     mst[rand_city] = adjList[rand_city];
     data[rand_city].visited = true; //mark our starting vertex on the adjacency list
-    let next_city;
+    
+    //get the vertex count in data
     
     //enumerate this how?
-    console.log('next city ', findnextCity(mst,data, rand_city, next_city));
-    
-    //if we are making this recursive, what is our starting/stopping condition
-    //if we are doing this iteratively what are we enumerating over? (the whole of data)
-    //find the array with the shortest path/edge around the MST
-    //let shortest_len = Number.POSITIVE_INFINITY;
-    ////search a single vertex in the MST(we need to scale this for all vertices in the mst)
-    //for(vertex in mst)
-    //{
-    //    for(let i = 0; i < mst[rand_city].length; i++)
-    //    {
-    //        shortest_len = Math.min(shortest_len, mst[rand_city][i][3]);
-    //    }
-    //}
-    //let shortest_vertex;
-    //let next_city;
-    ////grab the vertex+path we just found
-    //for(let i = 0; i < mst[rand_city].length; i++)
-    //{
-    //    if(mst[rand_city][i][3] == shortest_len)
-    //    {
-    //        data[rand_city].visited = true;
-    //        next_city = mst[rand_city][i][2]; //grab the name of our next city
-    //        mst[next_city] = data[next_city]; //create a key,val pair in mst(add the city)
-    //        data[next_city].visited = true; 
-    //        break;
-    //    }
-    //}
-    //for(vertex in mst) //this chunk marks off the paths from null->1
-    //{
-    //    //go through every single array entry in each mst definition
-    //    for(let i = 0; i < mst[vertex].length; i++)
-    //    {
-    //        if(mst[vertex] == mst[rand_city]) //if we are in the origin vertex's 
-    //        {
-    //            if(mst[vertex][i][2] == next_city)
-    //            {
-    //                mst[vertex][i][0] = 1;
-    //            }
-    //        }
-    //        if(mst[vertex] == mst[next_city])
-    //        {
-    //            if(mst[vertex][i][2] == rand_city)
-    //            {
-    //                mst[vertex][i][0] = 1;
-    //            }
-    //        }
-    //    }
-    //}
+    for(let i = 0; i < 3; i++)
+    {
+        findnextCity(mst,data, rand_city);
+    }
+    //console.log("next_city", next_city);
+    //console.log("rand city ", rand_city);
     console.log("mst ", mst);
-    console.log("rand city ", rand_city);
 }
 
-//this function 
-function findnextCity(mst, data, rand_city, next_city_prop)
+//this function might need to be broken up into pieces
+function findnextCity(mst, data, rand_city)
 {
- let shortest_len = Number.POSITIVE_INFINITY;
+    let shortest_len = Number.POSITIVE_INFINITY;
     //search a single vertex in the MST(we need to scale this for all vertices in the mst)
     for(vertex in mst)
     {
-        for(let i = 0; i < mst[rand_city].length; i++)
+        //for(let i = 0; i < mst[rand_city].length; i++)
+        for(let i = 0; i < mst[vertex].length; i++)
         {
             shortest_len = Math.min(shortest_len, mst[rand_city][i][3]);
         }
     }
-    
-    let shortest_vertex;
-    
+
     //TODO connect up next_city to the one we calculate here
+    let next_city; //next city?
 
     //grab the vertex+path we just found
     for(let i = 0; i < mst[rand_city].length; i++)
@@ -144,7 +110,7 @@ function findnextCity(mst, data, rand_city, next_city_prop)
             break;
         }
     }
-    
+
     for(vertex in mst) //this chunk marks off the paths from null->1
     {
         //go through every single array entry in each mst definition
@@ -157,7 +123,6 @@ function findnextCity(mst, data, rand_city, next_city_prop)
                     mst[vertex][i][0] = 1;
                 }
             }
-
             if(mst[vertex] == mst[next_city])
             {
                 if(mst[vertex][i][2] == rand_city)
@@ -168,7 +133,9 @@ function findnextCity(mst, data, rand_city, next_city_prop)
         }
     }
     console.log("findnextCity: next city is", next_city);
-    return next_city;
+    //return next_city;
+    return mst;
+    //we might need to return data(our map);
 }
 
 //scans for shortest vertex 
