@@ -29,3 +29,4 @@
 - a lot of our prims errors hinge directly on the fact we aren't generating an updated shortest length 
 - which dominoes back to the fact the 
 - what to do with that extra first city? after the 1st case?
+- we are supposed to keep going until there are no more vertices in data and/or mst to do 

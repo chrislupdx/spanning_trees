@@ -50,21 +50,6 @@ function arrayEquals(a, b)
     return true;
 }
 
-function prim1(adjList)
-{
-    let data = adjList; //our base map is an adjacency list
-
-    const keys = Object.keys(data); //grabs a random vertex
-    const first_city = keys[Math.floor(Math.random() * keys.length)];
-
-    let mst = new Object();
-    mst[first_city] = adjList[first_city];
-    data[first_city].visited = true;
-
-    let shortest_len = Number.POSITIVE_INFINITY; //what if this was a funcitn
-
-}
-
 //make this recursive?
 function recurr(mst, data)
 {
@@ -72,18 +57,18 @@ function recurr(mst, data)
     let shortest_len = Number.POSITIVE_INFINITY; //we want the shortest possible next path of the whole mst
     //search a single vertex in the MST(we need to scale this for all vertices in the mst)
     //TODO this isn't working bc mst inst increasing in length between iterations
+    console.log("number of vertices in mst ", Object.keys(mst).length);
     for(vertex in mst) //wait shouldn't this be until mst.length = data.verticecount - 1
     {
         for(let i = 0; i < mst[vertex].length; i++) //find the shortest length //we might need to do things with data[vertex].visited
         {
             shortest_len = Math.min(shortest_len, mst[vertex][i][3]);
         }
-
         let shortest_path_city_from;
         let shortest_path_city_to;
         for(let i = 0; i < mst[vertex].length; i++) 
         {
-            if(mst[vertex][i][3] == shortest_len) //TODO 
+            if(mst[vertex][i][3] == shortest_len && mst[vertex][i][0] === null) //TODO AND IT HAS NOT BEEN VISITED
             {
                 data[vertex].visited = true; //TODO does this even need to occur here?
                 console.log("shortest length is ", mst[vertex][i]);
@@ -96,11 +81,10 @@ function recurr(mst, data)
                 break; //this might be the issue
             }
         }
-        console.log("shortest path city from is ", shortest_path_city_from, " shortest path city to is ", shortest_path_city_to);
+        console.log("shortest_path_city_from is ", shortest_path_city_from, " shortest_path_city_to is ", shortest_path_city_to);
 
         for(let i = 0; i < mst[vertex].length; i++) //go through every single array entry in each mst definition
         {
-            //TODO this comparison locks it
             if(mst[vertex] == mst[shortest_path_city_from]) //if we are in the origin vertex's  TODO 
             {
                 if(mst[vertex][i][2] == shortest_path_city_to)
@@ -118,10 +102,10 @@ function recurr(mst, data)
         }
         console.log(vertex, " is vertex"); 
     }
+    let newmst = mst;
     //return recurr(mst, data);
-    return mst;
+    return newmst;
 }
-
 function prims(adjList)
 {
     let data = adjList;
@@ -131,12 +115,14 @@ function prims(adjList)
     mst[first_city] = data[first_city];
     data[first_city].visited = true; //mark our starting vertex on the adjacency list
     //get the vertex count in data
-    
+
+    //TODO so long as  mst has data.keys.length -1, keep calling
     //this is disgusting but we added a 3rd city
     let updatemst = recurr(mst,data); //this finds the closest vertex to the mst and adds it in
-    recurr(updatemst, data);
+    let x = recurr(updatemst, data);
+    console.log(x);
     //console.log("shortest_path_city", shortest_path_city, " first city ", first_city);
-    console.log("updatemst ", Object.keys(updatemst).length, updatemst);
+    //console.log("updatemst ", Object.keys(updatemst).length, updatemst);
 }
 
 //this function might need to be broken up into pieces
