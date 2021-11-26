@@ -50,89 +50,98 @@ function arrayEquals(a, b)
     return true;
 }
 
-//once again, more general
-function prim1(adJList)
+function prim1(adjList)
 {
-    
+    let data = adjList; //our base map is an adjacency list
 
+    const keys = Object.keys(data); //grabs a random vertex
+    const first_city = keys[Math.floor(Math.random() * keys.length)];
 
+    let mst = new Object();
+    mst[first_city] = adjList[first_city];
+    data[first_city].visited = true;
+
+    let shortest_len = Number.POSITIVE_INFINITY; //what if this was a funcitn
+
+}
+
+//make this recursive?
+function recurr(mst, data)
+{
+    if(Object.keys(mst).length == (Object.keys(data).length - 1)) return;
+    let shortest_len = Number.POSITIVE_INFINITY; //we want the shortest possible next path of the whole mst
+    //search a single vertex in the MST(we need to scale this for all vertices in the mst)
+    //TODO this isn't working bc mst inst increasing in length between iterations
+    for(vertex in mst) //wait shouldn't this be until mst.length = data.verticecount - 1
+    {
+        for(let i = 0; i < mst[vertex].length; i++) //find the shortest length //we might need to do things with data[vertex].visited
+        {
+            shortest_len = Math.min(shortest_len, mst[vertex][i][3]);
+        }
+
+        let shortest_path_city_from;
+        let shortest_path_city_to;
+        for(let i = 0; i < mst[vertex].length; i++) 
+        {
+            if(mst[vertex][i][3] == shortest_len) //TODO 
+            {
+                data[vertex].visited = true; //TODO does this even need to occur here?
+                console.log("shortest length is ", mst[vertex][i]);
+                shortest_path_city_to = mst[vertex][i][2]; //grab the name of our next new city
+                shortest_path_city_from = mst[vertex][i][1]; //grab the name of where it comes from
+                mst[shortest_path_city_to] = data[shortest_path_city_to]; //create a key,val pair in mst(add the city) TODO 
+                mst[shortest_path_city_from] = data[shortest_path_city_from]; //TODO this was a gut instinct add, what's going on here
+                data[shortest_path_city_from].visited = true; 
+                data[shortest_path_city_to].visited = true; 
+                break; //this might be the issue
+            }
+        }
+        console.log("shortest path city from is ", shortest_path_city_from, " shortest path city to is ", shortest_path_city_to);
+
+        for(let i = 0; i < mst[vertex].length; i++) //go through every single array entry in each mst definition
+        {
+            //TODO this comparison locks it
+            if(mst[vertex] == mst[shortest_path_city_from]) //if we are in the origin vertex's  TODO 
+            {
+                if(mst[vertex][i][2] == shortest_path_city_to)
+                {
+                    mst[vertex][i][0] = 1;
+                }
+            }
+            if(mst[vertex] == mst[shortest_path_city_to])
+            {
+                if(mst[vertex][i][2] == shortest_path_city_from)
+                {
+                    mst[vertex][i][0] = 1;
+                }
+            }
+        }
+        console.log(vertex, " is vertex"); 
+    }
+    //return recurr(mst, data);
+    return mst;
 }
 
 function prims(adjList)
 {
     let data = adjList;
     const keys = Object.keys(data); //grabs a random vertex
-    const rand_city = keys[Math.floor(Math.random() * keys.length)];
-
-    //how are you representing your MST?
-    let mst = new Object(); //initialize mst with a random vertex, mark that vertex as visited
-    mst[rand_city] = adjList[rand_city];
-    data[rand_city].visited = true; //mark our starting vertex on the adjacency list
-    
+    const first_city = keys[Math.floor(Math.random() * keys.length)];
+    let mst = new Object(); //our mst is an adjacency list just like data
+    mst[first_city] = data[first_city];
+    data[first_city].visited = true; //mark our starting vertex on the adjacency list
     //get the vertex count in data
     
-    //enumerate this how?
-    for(let i = 0; i < 3; i++)
-    {
-        findnextCity(mst,data, rand_city);
-    }
-    //console.log("next_city", next_city);
-    //console.log("rand city ", rand_city);
-    console.log("mst ", mst);
+    //this is disgusting but we added a 3rd city
+    let updatemst = recurr(mst,data); //this finds the closest vertex to the mst and adds it in
+    recurr(updatemst, data);
+    //console.log("shortest_path_city", shortest_path_city, " first city ", first_city);
+    console.log("updatemst ", Object.keys(updatemst).length, updatemst);
 }
 
 //this function might need to be broken up into pieces
 function findnextCity(mst, data, rand_city)
 {
-    let shortest_len = Number.POSITIVE_INFINITY;
-    //search a single vertex in the MST(we need to scale this for all vertices in the mst)
-    for(vertex in mst)
-    {
-        //for(let i = 0; i < mst[rand_city].length; i++)
-        for(let i = 0; i < mst[vertex].length; i++)
-        {
-            shortest_len = Math.min(shortest_len, mst[rand_city][i][3]);
-        }
-    }
-
-    //TODO connect up next_city to the one we calculate here
-    let next_city; //next city?
-
-    //grab the vertex+path we just found
-    for(let i = 0; i < mst[rand_city].length; i++)
-    {
-        if(mst[rand_city][i][3] == shortest_len)
-        {
-            data[rand_city].visited = true;
-            next_city = mst[rand_city][i][2]; //grab the name of our next city
-            mst[next_city] = data[next_city]; //create a key,val pair in mst(add the city)
-            data[next_city].visited = true; 
-            break;
-        }
-    }
-
-    for(vertex in mst) //this chunk marks off the paths from null->1
-    {
-        //go through every single array entry in each mst definition
-        for(let i = 0; i < mst[vertex].length; i++)
-        {
-            if(mst[vertex] == mst[rand_city]) //if we are in the origin vertex's 
-            {
-                if(mst[vertex][i][2] == next_city)
-                {
-                    mst[vertex][i][0] = 1;
-                }
-            }
-            if(mst[vertex] == mst[next_city])
-            {
-                if(mst[vertex][i][2] == rand_city)
-                {
-                    mst[vertex][i][0] = 1;
-                }
-            }
-        }
-    }
-    console.log("findnextCity: next city is", next_city);
     //return next_city;
     return mst;
     //we might need to return data(our map);
