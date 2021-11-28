@@ -30,3 +30,5 @@
 - which dominoes back to the fact the 
 - what to do with that extra first city? after the 1st case?
 - we are supposed to keep going until there are no more vertices in data and/or mst to do 
+
+- there could be a sort "if we are the first (if spc-from is null)
