@@ -13,7 +13,6 @@ function parseText()
     }
     return cleaned;
 }
-//converts a vertex list into an adjacency list
 function adjList(data)
 {
     let list = new Object();
@@ -32,6 +31,17 @@ function adjList(data)
     }
     return list
 }
+function hasVertex(MST, name)
+{
+    for(vertex in MST)
+    {
+        if(name == vertex)
+        {
+            return true
+        }
+    }
+    return false;
+}
 function prims(adjList)
 {
     let MST = new Object();  //this is an adjacency list
@@ -41,38 +51,35 @@ function prims(adjList)
     let totalweight = 0;
     for(let i = 0; i < keys.length; i++) //the real stopping condition is when mst lenght == adjlist.length -1  //TODO this stopping conidition is suspciious
     {
-        let shortest_path_city_to;
-        let shortest_path_city_from;
-        let shortest_len = findShortestPath(MST);
-        //console.log(shortest_len, " is shosrtest len"); //TODO find the corresponsidnng thing
+        let shortest_len = findShortestPath(MST); //put adjList in here TODO
+        console.log("in prims shortest is", shortest_len);
         totalweight += shortest_len;
-        addVertex(MST, adjList, shortest_path_city_to, shortest_path_city_from, shortest_len);
-        //console.log(Object.keys(MST).length, " is keys, !@!@!totalweight: is ", totalweight, MST);
-        //console.log(shortest_len, " is shortest len ", Object.keys(MST).length, " is keys, !@!@!totalweight: is ", totalweight, MST[shortest_path_city_to]);
+        addVertex(MST, adjList, shortest_len);
     }
-    console.log(MST, Object.keys(MST).length, "is keys", totalweight, " total weight");
+    //console.log(MST, Object.keys(MST).length, "is keys", totalweight, " total weight");
 }
-function addVertex(MST, adjList, shortest_path_city_to, shortest_path_city_from, shortest_len)
+
+function addVertex(MST, adjList, shortest_len)
 {
+    let shortest_path_city_to;
+    let shortest_path_city_from;
+
     //add shortest_path_city_to into MST TODO, is the only way to do a weird lookup by edge? is there some way to assign it
     for(vertex in MST) 
     {
         for(let i = 0; i < MST[vertex].length; i++)
-        { //TODO get the next conditional right
-            //console.log(MST[vertex][i][0], ", for ", MST[vertex][i][2]);
-            //console.log(MST[vertex][i][0], ", for ", MST[vertex][i]);
+        { 
             if(MST[vertex][i][3] == shortest_len && hasVertex(MST, MST[vertex][i][2]) == false) //and the name of the the vertex we are connecting to does not exist in the mst
             {
-                //MST[vertex]visited == false USE IN HERE FOR SOMETHING TODO
+                console.log("shortest len_to is", MST[vertex][i][2]);
                 MST[vertex][i][0] = 1; //marked off the path from -> to
                 shortest_path_city_to = MST[vertex][i][2]; 
                 shortest_path_city_from = MST[vertex][i][1]; 
-                adjList[shortest_path_city_to].visited = true; //TODO are both necessary
+                adjList[shortest_path_city_to].visited = true; //TODO are both necessary?
                 adjList[shortest_path_city_from].visited = true;
                 MST[shortest_path_city_to] = adjList[shortest_path_city_to];
                 MST[shortest_path_city_from] = adjList[shortest_path_city_from];
-                //mark off to -> from
-                for(let i = 0; i < MST[shortest_path_city_to].length; i++)
+                for(let i = 0; i < MST[shortest_path_city_to].length; i++) //mark off to -> from
                 {
                     if(MST[shortest_path_city_to][i][2] == shortest_path_city_from)
                     {
@@ -84,50 +91,29 @@ function addVertex(MST, adjList, shortest_path_city_to, shortest_path_city_from,
         }
     }
 }
-
-//traverses the MST searching for the vertex. If there is a match, return true, else false
-function hasVertex(MST, name)
-{
-   for(vertex in MST)
-    {
-        if(name == vertex)
-        {
-            //console.log("name is", name, " vertex is ", vertex);
-            return true
-        }
-        //for(let i = 0; i < MST[vertex].length; i++)
-        //{
-        //    if(MST[vertex][i][2] == name)
-        //    {
-        //        console.log("name is ", name, "we found a match: ", MST[vertex][i][2]);
-        //        return true;
-        //    }
-        //}
-    }
-    //console.log("false no ", name, " in mst yet");
-    return false;
-}
-
-//pass data into this?
+//if we brought in the base map, could it help us
 function findShortestPath(mst)
 {
     let shortest_len = Number.POSITIVE_INFINITY;
+    let fail = true; //can we flag for when we don't progress any further? TODO 
+    let shortest_len_city_from;
+    let shortest_len_city_to;
     for(vertex in mst)
     {  
-        //a vertex that does not exist in the graph
         for(let i = 0; i < mst[vertex].length; i++)
         { 
-            //console.log(mst[vertex], mst[vertex].visited); //and its unvisited path and vertex
-            //console.log(mst[vertex][i], mst[vertex][i][2]), " !";
-            if(mst[vertex][i][0] != 1 && hasVertex(mst, mst[vertex][i][2]) == false) //and its unvisited path and vertex
-            //if(mst[vertex][i][0] != 1 && mst[vertex].visited == false) //and its unvisited path and vertex
-            //if(mst[vertex][i][0] === null) //and its unvisited path and vertex
+            if(hasVertex(mst, mst[vertex][i][2]) == false && mst[vertex][i][0] != 1) //and its unvisited path and vertex
             {
-                shortest_len = Math.min(shortest_len, mst[vertex][i][3]); //TODO  we could mark it off here actually
+                //console.log(mst[vertex][i], " is shortest length city");
+                shortest_len_city_to = mst[vertex][i][2];
+                shortest_len_city_from = mst[vertex][i][1];
+                shortest_len = Math.min(shortest_len, mst[vertex][i][3]); 
                 mst[vertex].visited = true;
-            }
+                fail = false;
+            } 
         }
     }
+    console.log('shortest len city is from', shortest_len_city_from, "shortest len city is to ", shortest_len_city_to);
     return shortest_len;
 }
 let data = parseText();
