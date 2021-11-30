@@ -66,8 +66,7 @@ function addVertex(MST, adjList, shortest_len)
     for(vertex in MST)  
     {
         let phrase = vertex;
-        //for(let i = 0; i < (MST[phrase].length - 1); i++) //TODO would a -1 error be catastrophic here
-        for(let i = 0; i < MST[phrase].length; i++) //TODO would a -1 error be catastrophic here
+        for(let i = 0; i < MST[phrase].length; i++)
         { 
             if(MST[phrase][i][3] == shortest_len && hasVertex(MST, MST[phrase][i][2]) === false) //and the name of the the vertex we are connecting to does not exist in the mst
             {
