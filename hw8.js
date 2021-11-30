@@ -102,6 +102,7 @@ function findShortestPath(mst) //check if we are saving and comparing between ve
         let phrase = vertex;
         for(let i = 0; i < mst[phrase].length; i++)
         { 
+            console.log(mst[phrase].length);
             if((hasVertex(mst, mst[phrase][i][2]) === false) && mst[vertex][i][0] != 1) //and its unvisited path and vertex
             { //what if we did 108-112 IF successfully smaller
                 shortest_len_city_to = mst[phrase][i][2];  //TODO 
@@ -115,20 +116,126 @@ function findShortestPath(mst) //check if we are saving and comparing between ve
     }
     return shortest_len;
 }
+
+function generateFile(stuff)
+{
+    let done;
+    fs.writeFile("sampletext.txt", done, function (err) {
+        if(err) return console.log(err)
+        {
+            console.log("done -> smapletext.txt");
+        }
+    });
+}
+
+function makeName(length)
+{
+    let result = "";
+    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    let charlength = chars.length;
+    for (let i = 0; i < length; i++)
+    {
+        result += chars.charAt(Math.floor(Math.random() * charlength));
+    }
+    return result;
+}
+
+//this is an interface function
+function generategraph(cityNum)
+{
+    console.log("cityNum is ", cityNum);
+    //geenerate a graph where each vertex has |vertex| - 1 edges pointing to other vertices
+    let didgraph = {};
+    //let pathMAX = 0 to (|vertex| - 1)
+
+    let citynum = cityNum;
+    let cities = [];
+
+    //generate |cityNum| cities, push them into cities[];
+    for(let i = 0; i < cityNum; i++)
+    {
+        let cityName = require("crypto").randomBytes(2).toString("hex");
+        cities.push(cityName);
+    }
+
+    //create |cityNum| defitintions for didgraph
+    //each defiition has |cityNum| - 1  definitions
+    for(let i = 0; i < cities.length; i++)
+    {
+        //go through the object and check how many available paths we can take
+        //check how many paths we need to generate for this instance
+        //increment the count on the object we selected, 
+        didgraph[cities[i]] = [];
+
+        //TODO add to the definition of the object
+        for(let a = 0; a < cities.length; a++)  //path # = cities - 1
+        {
+            if(cities[a] != cities[i])
+            {
+            didgraph[cities[i]].push([cities[i], cities[a], Math.floor(Math.random() * 100).toString()]);
+            }
+        }
+    }
+    //console.log(didgraph);
+    return didgraph;
+}
+
+//lol no
+function generatePlain(graph)
+{
+    let plain = "";
+    return plain;
+}
+
 function interfaceF()
 {
     let data = parseText();
     let list = adjList(data);
-    let startTime = performance.now();
-    let mst = prims(list);
-    let endTime = performance.now();
-    let delta =  endTime - startTime; //outputs in milliseconds i belive
-    console.log(mst);
-    console.log("elapsed time is ", (delta * 0.001), " seconds");//
+    let genlist = generategraph(4);
+    console.log(genlist);
+    let stringed =JSON.stringify(genlist);
+    //console.log(stringed);
+    let regex = /[!#$%&()*+,-./:;<=>?@[\]^_`{|}~]/g;
+    let nospacesresult = stringed.replace(regex,' ');
+    //console.log(nospacesresult);    
+    //let count = 0;
+    //for(let i = 0; i < nospacesresult.length; i++)
+    //{
+    //    if(nospacesresult[i] == " ")
+    //    {
+    //        //assuming there is a space in the front, every fourth space gets a \n
+    //        //console.log(i, " is a space");
+    //        count++;
+    //        if(count == 4)
+    //        {
+    //            nospacesresult[i] = "A";
+    //            count = 1; //set it back to 1
+    //        }
+    //    }
+    //}
+    //console.log(nospacesresult);
+    //let res = nospacesresult.replace(/((?:\S*\s){4}.*?)\s/g, "\n");
+    //console.log(res);
+    //let count = 0;    
+    //for(let i = 0; i < nospacesresult.length; i++)
+    //{
+    //    console.log(
+    //}
+    //let spacedresult = nospaces.result.replace(regtwo, 
+    //    every 4 items should be newlined 
 
-    //create a sample size of 
-    //
-}
+        //console.log(nospacesresult);
+        //generateFile(genlist); //brings sampletext.txt into existence
+
+        //let startTime = performance.now();
+        //let mst = prims(list);
+        //let endTime = performance.now();
+        //let delta =  endTime - startTime; //outputs in milliseconds i belive
+        //console.log(mst);
+        //console.log("elapsed time is ", (delta * 0.001), " seconds");//
+
+        //create a sample size of 
+    }
 interfaceF();
 //generate a js program that generates text files
 //fll and format formatted  like city-pairs.txt
