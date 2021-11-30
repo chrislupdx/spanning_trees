@@ -159,7 +159,7 @@ function generategraph(cityNum)
         {
             if(cities[a] != cities[i])
             {
-            didgraph[cities[i]].push([cities[i], cities[a], Math.floor(Math.random() * 100).toString()]);
+                didgraph[cities[i]].push([cities[i], cities[a], Math.floor(Math.random() * 100).toString(), '\n']);
             }
         }
     }
@@ -172,28 +172,61 @@ function interfaceF()
     let genlist = generategraph(4);
     //console.log(genlist);
     let stringed = JSON.stringify(genlist);
-    //console.log(stringed);
-    let regex = /[!#$%&()*+,-./:;<=>?@[\]^_`{|}~]/g;
-    let nospacesresult = stringed.replace(regex,'');
-    console.log(typeof nospacesresult);    
+    console.log(stringed);
+    let regex = /[!#$%"'&()*+,-./:;<=>?@[\]^_`{|}~]/g;
+    let nospacesresult = stringed.replace(regex,' ');
+    console.log(nospacesresult);
+    //let x = 'abc abc abc 2 \n asd asd asd 3'
     generateFile(nospacesresult);
+    //generateFile(x);
     
+    //let res = [];
+    //for (vertex in genlist)
+    //{
+    //let phrase = vertex;
+    //const items = genlist[phrase];
+    //const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
+    //const header = Object.keys(items[0]);
+    //res = [
+    //    header.join(' '), // header row first
+    //    ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(' '))
+    //].join('\r\n')
+
+    //}
+    //console.log(res)
+    //generateFile(res);
+
+    //let done = "";
     //let keys = Object.keys(genlist);
-    //console.log(keys);
+    //
+    //for( vertex in genlist)
+    //{
+    //    let phrase = vertex;
+    //    for(let i = 0; i < genlist[phrase].length; i++)
+    //    {
+    //        let nextarray = genlist[phrase][i];
+    //        console.log(nextarray);
+    //        done.concat(nextarray);
+    //    }
+    //}
+    //console.log(done);
+
+
 
     //let count = 0;
     //for(let i = 0; i < nospacesresult.length; i++)
     //{
     //    if(nospacesresult[i] == " ")
     //    {
+    //        console.log("space");
     //        //assuming there is a space in the front, every fourth space gets a \n
     //        //console.log(i, " is a space");
-    //        count++;
-    //        if(count == 4)
-    //        {
+    //        //count++;
+    //        //if(count == 4)
+    //        //{
     //            nospacesresult[i] = "A";
-    //            count = 1; //set it back to 1
-    //        }
+    //         //   count = 1; //set it back to 1
+    //        //}
     //    }
     //}
     //console.log(nospacesresult);
@@ -206,19 +239,16 @@ function interfaceF()
     //}
     //let spacedresult = nospaces.result.replace(regtwo, 
     //    every 4 items should be newlined 
-
-        //console.log(nospacesresult);
-        //generateFile(genlist); //brings sampletext.txt into existence
-
-        //let startTime = performance.now();
-        //let mst = prims(list);
-        //let endTime = performance.now();
-        //let delta =  endTime - startTime; //outputs in milliseconds i belive
-        //console.log(mst);
-        //console.log("elapsed time is ", (delta * 0.001), " seconds");//
-
-        //create a sample size of 
-    }
+    //console.log(nospacesresult);
+    //generateFile(genlist); //brings sampletext.txt into existence
+    //let startTime = performance.now();
+    //let mst = prims(list);
+    //let endTime = performance.now();
+    //let delta =  endTime - startTime; //outputs in milliseconds i belive
+    //console.log(mst);
+    //console.log("elapsed time is ", (delta * 0.001), " seconds");//
+    //create a sample size of 
+}
 interfaceF();
 //generate a js program that generates text files
 //fll and format formatted  like city-pairs.txt
