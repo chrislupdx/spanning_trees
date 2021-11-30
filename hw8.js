@@ -63,10 +63,11 @@ function addVertex(MST, adjList, shortest_len)
 {
     let shortest_path_city_to;
     let shortest_path_city_from;
-    for(vertex in MST)  //TODO
+    for(vertex in MST)  
     {
         let phrase = vertex;
-        for(let i = 0; i < (MST[phrase].length - 1); i++)
+        //for(let i = 0; i < (MST[phrase].length - 1); i++) //TODO would a -1 error be catastrophic here
+        for(let i = 0; i < MST[phrase].length; i++) //TODO would a -1 error be catastrophic here
         { 
             if(MST[phrase][i][3] == shortest_len && hasVertex(MST, MST[phrase][i][2]) === false) //and the name of the the vertex we are connecting to does not exist in the mst
             {
@@ -94,27 +95,27 @@ function findShortestPath(mst) //check if we are saving and comparing between ve
 {
     //console.log("START shortest");
     //console.log(Object.keys(mst), "is keys of the mst currently at the start of findshortest");
-    let shortest_len = Number.POSITIVE_INFINITY; //what if we compiled a list of locations?
+    let shortest_len = Number.POSITIVE_INFINITY; //should this be remembered between addresses as a smallest_len
     let shortest_len_city_from;
     let shortest_len_city_to;
-    
+    let found = false; 
     for(vertex in mst)
     {   
         let phrase = vertex;
-        for(let i = 0; i < mst[phrase].length; i++)  //ttroulbe accessing 
+        for(let i = 0; i < mst[phrase].length; i++)
         { 
             if((hasVertex(mst, mst[phrase][i][2]) === false) && mst[vertex][i][0] != 1) //and its unvisited path and vertex
-            {
-                shortest_len_city_to = mst[phrase][i][2];  //TODO why is this always the same
-                shortest_len_city_from = mst[phrase][i][1]; 
+            { //what if we did 108-112 IF successfully smaller
+                shortest_len_city_to = mst[phrase][i][2];  //TODO 
+                shortest_len_city_from = mst[phrase][i][1];  //TODO 
                 let curr_shortest_len = mst[phrase][i][3];
                 shortest_len = Math.min(shortest_len, curr_shortest_len); 
-                //console.log("considering  slc_from: ", shortest_len_city_from, "slc_to ", shortest_len_city_to, "that length is", curr_shortest_len,  " BUT shortest len is ", shortest_len);
+                console.log("considering  slc_from: ", shortest_len_city_from, "slc_to: ", shortest_len_city_to, "that length is", curr_shortest_len,  " BUT shortest len is ", shortest_len);
                 mst[phrase].visited = true;
             } 
         }
     }
-    console.log('FINAL shortest len city is from', shortest_len_city_from, "shortest len city is to ", shortest_len_city_to, " of lengtth " , shortest_len, "slct status in mst ", hasVertex(mst, shortest_len_city_to));
+    console.log("FINAL lengtth " , shortest_len,);
     return shortest_len;
 }
 let data = parseText();
