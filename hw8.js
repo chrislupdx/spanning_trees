@@ -54,10 +54,14 @@ function prims(adjList)
     for(let i = 0; i < keys.length; i++) //the real stopping condition is when mst lenght == adjlist.length -1  //TODO this stopping conidition is suspciious
     {
         let shortest_len = findShortestPath(MST); //put adjList in here TODO
+        console.log(totalweight, " is totalweight");
+        if(i < (keys.length - 1))
+        {
         totalweight += shortest_len;
+        }
         addVertex(MST, adjList, shortest_len);
     }
-    console.log(MST, Object.keys(MST).length, "is keys", totalweight, " total weight");
+    console.log(MST, Object.keys(MST).length, "is keys", totalweight, " is totalweight");
 }
 function addVertex(MST, adjList, shortest_len)
 {
