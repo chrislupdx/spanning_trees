@@ -63,16 +63,17 @@ function addVertex(MST, adjList, shortest_len)
 {
     let shortest_path_city_to;
     let shortest_path_city_from;
-    for(vertex in MST) 
+    for(vertex in MST)  //TODO
     {
-        for(let i = 0; i < (MST[vertex].length - 1); i++)
+        let phrase = vertex;
+        for(let i = 0; i < (MST[phrase].length - 1); i++)
         { 
-            if(MST[vertex][i][3] == shortest_len && hasVertex(MST, MST[vertex][i][2]) === false) //and the name of the the vertex we are connecting to does not exist in the mst
+            if(MST[phrase][i][3] == shortest_len && hasVertex(MST, MST[phrase][i][2]) === false) //and the name of the the vertex we are connecting to does not exist in the mst
             {
                 //console.log("shortest len_to is", MST[vertex][i][2]);
-                MST[vertex][i][0] = 1; //marked off the path from -> to
-                shortest_path_city_to = MST[vertex][i][2]; 
-                shortest_path_city_from = MST[vertex][i][1]; 
+                MST[phrase][i][0] = 1; //marked off the path from -> to
+                shortest_path_city_to = MST[phrase][i][2]; 
+                shortest_path_city_from = MST[phrase][i][1]; 
                 adjList[shortest_path_city_to].visited = true;
                 adjList[shortest_path_city_from].visited = true;
                 MST[shortest_path_city_to] = adjList[shortest_path_city_to];
@@ -91,23 +92,20 @@ function addVertex(MST, adjList, shortest_len)
 }
 function findShortestPath(mst) //check if we are saving and comparing between vertices
 {
-    console.log("START shortest");
+    //console.log("START shortest");
     //console.log(Object.keys(mst), "is keys of the mst currently at the start of findshortest");
     let shortest_len = Number.POSITIVE_INFINITY; //what if we compiled a list of locations?
     let shortest_len_city_from;
     let shortest_len_city_to;
     
-    //for (vertex of Object.entries(mst)) 
-    for(vertex in mst)  //the inner loop isn't scanning the entire mst TODO 
+    for(vertex in mst)
     {   
         let phrase = vertex;
-        //console.log("current phrase outer ", phrase);
         for(let i = 0; i < mst[phrase].length; i++)  //ttroulbe accessing 
         { 
-            console.log(i, " is i. ", phrase, "= phrase`. "); //TODO this is our test
             if((hasVertex(mst, mst[phrase][i][2]) === false) && mst[vertex][i][0] != 1) //and its unvisited path and vertex
             {
-                shortest_len_city_to = mst[phrase][i][2]; 
+                shortest_len_city_to = mst[phrase][i][2];  //TODO why is this always the same
                 shortest_len_city_from = mst[phrase][i][1]; 
                 let curr_shortest_len = mst[phrase][i][3];
                 shortest_len = Math.min(shortest_len, curr_shortest_len); 
@@ -116,7 +114,7 @@ function findShortestPath(mst) //check if we are saving and comparing between ve
             } 
         }
     }
-    //console.log('FINAL shortest len city is from', shortest_len_city_from, "shortest len city is to ", shortest_len_city_to, " of lengtth " , shortest_len, "slct status in mst ", hasVertex(mst, shortest_len_city_to));
+    console.log('FINAL shortest len city is from', shortest_len_city_from, "shortest len city is to ", shortest_len_city_to, " of lengtth " , shortest_len, "slct status in mst ", hasVertex(mst, shortest_len_city_to));
     return shortest_len;
 }
 let data = parseText();
