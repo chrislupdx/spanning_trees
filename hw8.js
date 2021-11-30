@@ -3,7 +3,6 @@ let fs = require('fs');
 function parseText()
 {
     const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/city-pairs.txt', "utf8"); //parse the file
-    //const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/text.txt', "utf8"); //parse the file
     const arrData = fileData.split("\n");  //parse this into an array by newline character
     const cleaned = [];
     for(let i = 0; i < (arrData.length - 1); i++)
@@ -37,31 +36,30 @@ function hasVertex(MST, name)
     {
         if(name == vertex)
         {
-            //console.log("name is ", name, "vertex is ", vertex);
             return true
         }
     }
-    //console.log(name, " is not in MST atm");
     return false;
 }
 function prims(adjList)
 {
     let MST = new Object();  //this is an adjacency list
     const keys = Object.keys(adjList); //grabs a random vertexZj
+    console.log('keys', keys.length);
     const first_city = keys[Math.floor(Math.random() * keys.length)];
     MST[first_city] = adjList[first_city];
     let totalweight = 0;
     for(let i = 0; i < keys.length; i++) //the real stopping condition is when mst lenght == adjlist.length -1  //TODO this stopping conidition is suspciious
     {
         let shortest_len = findShortestPath(MST); //put adjList in here TODO
-        console.log(totalweight, " is totalweight");
         if(i < (keys.length - 1))
         {
-        totalweight += shortest_len;
+            totalweight += shortest_len;
         }
         addVertex(MST, adjList, shortest_len);
     }
-    console.log(MST, Object.keys(MST).length, "is keys", totalweight, " is totalweight");
+    //console.log(MST, Object.keys(MST).length, "is keys", totalweight, " is totalweight");
+    return MST;
 }
 function addVertex(MST, adjList, shortest_len)
 {
@@ -74,7 +72,6 @@ function addVertex(MST, adjList, shortest_len)
         { 
             if(MST[phrase][i][3] == shortest_len && hasVertex(MST, MST[phrase][i][2]) === false) //and the name of the the vertex we are connecting to does not exist in the mst
             {
-                //console.log("shortest len_to is", MST[vertex][i][2]);
                 MST[phrase][i][0] = 1; //marked off the path from -> to
                 shortest_path_city_to = MST[phrase][i][2]; 
                 shortest_path_city_from = MST[phrase][i][1]; 
@@ -96,8 +93,6 @@ function addVertex(MST, adjList, shortest_len)
 }
 function findShortestPath(mst) //check if we are saving and comparing between vertices
 {
-    //console.log("START shortest");
-    //console.log(Object.keys(mst), "is keys of the mst currently at the start of findshortest");
     let shortest_len = Number.POSITIVE_INFINITY; //should this be remembered between addresses as a smallest_len
     let shortest_len_city_from;
     let shortest_len_city_to;
@@ -113,14 +108,28 @@ function findShortestPath(mst) //check if we are saving and comparing between ve
                 shortest_len_city_from = mst[phrase][i][1];  //TODO 
                 let curr_shortest_len = mst[phrase][i][3];
                 shortest_len = Math.min(shortest_len, curr_shortest_len); 
-                console.log("considering  slc_from: ", shortest_len_city_from, "slc_to: ", shortest_len_city_to, "that length is", curr_shortest_len,  " BUT shortest len is ", shortest_len);
+                //console.log("considering  slc_from: ", shortest_len_city_from, "slc_to: ", shortest_len_city_to, "that length is", curr_shortest_len,  " BUT shortest len is ", shortest_len);
                 mst[phrase].visited = true;
             } 
         }
     }
-    console.log("FINAL lengtth " , shortest_len,);
     return shortest_len;
 }
-let data = parseText();
-let list = adjList(data);
-prims(list);
+function interfaceF()
+{
+    let data = parseText();
+    let list = adjList(data);
+    let startTime = performance.now();
+    let mst = prims(list);
+    let endTime = performance.now();
+    let delta =  endTime - startTime; //outputs in milliseconds i belive
+    console.log(mst);
+    console.log("elapsed time is ", (delta * 0.001), " seconds");//
+
+    //create a sample size of 
+    //
+}
+interfaceF();
+//generate a js program that generates text files
+//fll and format formatted  like city-pairs.txt
+//build a function interface that facilitates that
