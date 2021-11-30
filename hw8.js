@@ -119,7 +119,7 @@ function findShortestPath(mst) //check if we are saving and comparing between ve
 
 function generateFile(stuff)
 {
-    let done;
+    let done = stuff;
     fs.writeFile("sampletext.txt", done, function (err) {
         if(err) return console.log(err)
         {
@@ -144,30 +144,17 @@ function makeName(length)
 function generategraph(cityNum)
 {
     console.log("cityNum is ", cityNum);
-    //geenerate a graph where each vertex has |vertex| - 1 edges pointing to other vertices
     let didgraph = {};
-    //let pathMAX = 0 to (|vertex| - 1)
-
     let citynum = cityNum;
     let cities = [];
-
-    //generate |cityNum| cities, push them into cities[];
     for(let i = 0; i < cityNum; i++)
     {
         let cityName = require("crypto").randomBytes(2).toString("hex");
         cities.push(cityName);
     }
-
-    //create |cityNum| defitintions for didgraph
-    //each defiition has |cityNum| - 1  definitions
     for(let i = 0; i < cities.length; i++)
     {
-        //go through the object and check how many available paths we can take
-        //check how many paths we need to generate for this instance
-        //increment the count on the object we selected, 
         didgraph[cities[i]] = [];
-
-        //TODO add to the definition of the object
         for(let a = 0; a < cities.length; a++)  //path # = cities - 1
         {
             if(cities[a] != cities[i])
@@ -176,28 +163,24 @@ function generategraph(cityNum)
             }
         }
     }
-    //console.log(didgraph);
     return didgraph;
 }
-
-//lol no
-function generatePlain(graph)
-{
-    let plain = "";
-    return plain;
-}
-
 function interfaceF()
 {
     let data = parseText();
     let list = adjList(data);
     let genlist = generategraph(4);
-    console.log(genlist);
-    let stringed =JSON.stringify(genlist);
+    //console.log(genlist);
+    let stringed = JSON.stringify(genlist);
     //console.log(stringed);
     let regex = /[!#$%&()*+,-./:;<=>?@[\]^_`{|}~]/g;
-    let nospacesresult = stringed.replace(regex,' ');
-    //console.log(nospacesresult);    
+    let nospacesresult = stringed.replace(regex,'');
+    console.log(typeof nospacesresult);    
+    generateFile(nospacesresult);
+    
+    //let keys = Object.keys(genlist);
+    //console.log(keys);
+
     //let count = 0;
     //for(let i = 0; i < nospacesresult.length; i++)
     //{
