@@ -176,14 +176,37 @@ function interfaceF()
         let phrase = vertex;
         for(let i = 0; i < genlist[phrase].length; i++)
         {
-            console.log("i", genlist[phrase][i]);
-            //hm = hm.concat(hm, genlist[phrase][i].toString());
+            let thing = genlist[phrase][i].toString();
+            hm = hm + thing + ",";
         }
     }
-    console.log("hm is", hm);
+    
+    //copy the contents of hm, parse
 
-    let how = hm.replace(regex, '');
-    console.log(how);
+    //i need a regex that replaces ever 3rd comma with a newline
+    //hm = hm.replace(/((?:,[^,]*){2}),/g, '\n');
+    //hm = hm.replace(/((.*?,){3}. '\n')\s/g, '\n'); //didn't work
+    //hm = hm.replace(/((?:.*?\s){2}.*?)\s/g, '$1<br />');
+
+    console.log("hm is", hm); //we have a comma separated string of values
+    let newstring = ""; 
+    //replace every fourth comma in this string with a newline character
+    let count = 0;
+    for(let i = 0; i < hm.length - 1; i++)
+    {
+        if(hm[i] == "," && count == 3)
+        {
+            count = 0;
+            hm[i] = '\n';
+        }
+        count += 1;
+    }
+    console.log(count, " is count");
+    console.log(hm);
+    generateFile(hm);
+
+    //let how = hm.replace(regex, '');
+    //console.log(how);
     
     //let x = 'abc abc abc 2 \n asd asd asd 3'
 
@@ -228,7 +251,6 @@ function interfaceF()
     //let delta =  endTime - startTime; //outputs in milliseconds i belive
     //console.log(mst);
     //console.log("elapsed time is ", (delta * 0.001), " seconds");//
-    //create a sample size of 
 }
 interfaceF();
 //generate a js program that generates text files
