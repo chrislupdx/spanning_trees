@@ -128,18 +128,6 @@ function generateFile(stuff)
     });
 }
 
-function makeName(length)
-{
-    let result = "";
-    let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-    let charlength = chars.length;
-    for (let i = 0; i < length; i++)
-    {
-        result += chars.charAt(Math.floor(Math.random() * charlength));
-    }
-    return result;
-}
-
 //this is an interface function
 function generategraph(cityNum)
 {
@@ -159,7 +147,8 @@ function generategraph(cityNum)
         {
             if(cities[a] != cities[i])
             {
-                didgraph[cities[i]].push([cities[i], cities[a], Math.floor(Math.random() * 100).toString(), '\n']);
+                didgraph[cities[i]].push([cities[i], cities[a], Math.floor(Math.random() * 100).toString()]);
+                //didgraph[cities[i]].push([cities[i], cities[a], Math.floor(Math.random() * 100).toString(), '\n'])
             }
         }
     }
@@ -170,49 +159,42 @@ function interfaceF()
     let data = parseText();
     let list = adjList(data);
     let genlist = generategraph(4);
-    //console.log(genlist);
+    console.log(genlist);
     let stringed = JSON.stringify(genlist);
-    console.log(stringed);
     let regex = /[!#$%"'&()*+,-./:;<=>?@[\]^_`{|}~]/g;
     let nospacesresult = stringed.replace(regex,' ');
-    console.log(nospacesresult);
-    //let x = 'abc abc abc 2 \n asd asd asd 3'
-    generateFile(nospacesresult);
-    //generateFile(x);
-    
-    //let res = [];
-    //for (vertex in genlist)
-    //{
-    //let phrase = vertex;
-    //const items = genlist[phrase];
-    //const replacer = (key, value) => value === null ? '' : value; // specify how you want to handle null values here
-    //const header = Object.keys(items[0]);
-    //res = [
-    //    header.join(' '), // header row first
-    //    ...items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(' '))
-    //].join('\r\n')
+    let trimed = nospacesresult.replace(/\s+/g, ' ');
+    let ugh = trimed.toString();
+   
+    //this transforms the -> into array
+    let keys = Object.keys(genlist);
+    let hm = "";
 
+    //pushing the individual paths
+    for( vertex in genlist)
+    {
+        let phrase = vertex;
+        for(let i = 0; i < genlist[phrase].length; i++)
+        {
+            console.log("i", genlist[phrase][i]);
+            //hm = hm.concat(hm, genlist[phrase][i].toString());
+        }
+    }
+    console.log("hm is", hm);
+
+    let how = hm.replace(regex, '');
+    console.log(how);
+    
+    //let x = 'abc abc abc 2 \n asd asd asd 3'
+
+    //trimed = trimed.replace(/((?:.*?\s){2}.*?)\s/g, '\n');
+    //generateFile(ugh);
+    //let res = [];
     //}
     //console.log(res)
     //generateFile(res);
-
     //let done = "";
-    //let keys = Object.keys(genlist);
-    //
-    //for( vertex in genlist)
-    //{
-    //    let phrase = vertex;
-    //    for(let i = 0; i < genlist[phrase].length; i++)
-    //    {
-    //        let nextarray = genlist[phrase][i];
-    //        console.log(nextarray);
-    //        done.concat(nextarray);
-    //    }
-    //}
-    //console.log(done);
-
-
-
+        //console.log(done);
     //let count = 0;
     //for(let i = 0; i < nospacesresult.length; i++)
     //{
@@ -229,7 +211,6 @@ function interfaceF()
     //        //}
     //    }
     //}
-    //console.log(nospacesresult);
     //let res = nospacesresult.replace(/((?:\S*\s){4}.*?)\s/g, "\n");
     //console.log(res);
     //let count = 0;    
