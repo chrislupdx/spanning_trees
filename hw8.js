@@ -2,8 +2,9 @@ let fs = require('fs');
 //returns an edge list represented as an object. we can access it like this: data[x][y], where x is the line item, y=0 is to_vertex, y=1 from_vertex, y=2 is edge weigth
 function parseText()
 {
-    const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/city-pairs.txt', "utf8"); //parse the file
-    //const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/sampletext.txt', "utf8"); //parse the file
+    //const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/city-pairs.txt', "utf8"); //parse the file
+    const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/sampletext.txt', "utf8"); //parse the file
+    console.log(fileData);
     const arrData = fileData.split("\n");  //parse this into an array by newline character
     const cleaned = [];
     for(let i = 0; i < (arrData.length - 1); i++)
@@ -46,7 +47,7 @@ function prims(adjList)
 {
     let MST = new Object();  //this is an adjacency list
     const keys = Object.keys(adjList); //grabs a random vertexZj
-    console.log('keys', keys.length);
+    //console.log('keys', keys.length);
     const first_city = keys[Math.floor(Math.random() * keys.length)];
     MST[first_city] = adjList[first_city];
     let totalweight = 0;
@@ -103,7 +104,7 @@ function findShortestPath(mst) //check if we are saving and comparing between ve
         let phrase = vertex;
         for(let i = 0; i < mst[phrase].length; i++)
         { 
-            console.log(mst[phrase].length);
+            //console.log(mst[phrase].length);
             if((hasVertex(mst, mst[phrase][i][2]) === false) && mst[vertex][i][0] != 1) //and its unvisited path and vertex
             { //what if we did 108-112 IF successfully smaller
                 shortest_len_city_to = mst[phrase][i][2];  //TODO 
@@ -205,8 +206,6 @@ function generategraph(cityNum)
 //this function generates cleaned text
 function graphGen() //rename this
 {
-    //let data = parseText(); 
-    //let list = adjList(data);
     let genlist = generategraph(4);  //TODO
     let keys = Object.keys(genlist);
     let hm = "";
@@ -217,7 +216,7 @@ function graphGen() //rename this
         {
             let thing = genlist[phrase][i].toString(); //we could comma separate here
             thing = thing.replaceAll(',',' ');
-            console.log(thing);
+            //console.log(thing);
             hm = hm + thing + "\n";
         }
     }
@@ -226,14 +225,13 @@ function graphGen() //rename this
 
 function testmst()
 {
-
     let data = parseText();
     let list = adjList(data);
     let startTime = performance.now();
     let mst = prims(list);
     let endTime = performance.now();
     let delta =  endTime - startTime; //outputs in milliseconds i belive
-    //console.log(mst);
+    console.log(mst);
     console.log("elapsed time is ", (delta * 0.001), " seconds");//
 }
 graphGen();
