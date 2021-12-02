@@ -15,5 +15,10 @@ def gengraph(num):
     for x in range(num):
        cityName = secrets.token_hex(4)
        cities.append(cityName)
-
+    
+    for city in cities:
+        didgraph[city] = [];
+        for path in citylist:
+            if(path != city):
+                
 gengraph(4)
