@@ -3,6 +3,7 @@ let fs = require('fs');
 function parseText()
 {
     const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/city-pairs.txt', "utf8"); //parse the file
+    //const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/sampletext.txt', "utf8"); //parse the file
     const arrData = fileData.split("\n");  //parse this into an array by newline character
     const cleaned = [];
     for(let i = 0; i < (arrData.length - 1); i++)
@@ -123,7 +124,7 @@ function generateFile(stuff)
     fs.writeFile("sampletext.txt", done, function (err) {
         if(err) return console.log(err)
         {
-            console.log("done -> smapletext.txt");
+            console.log("done -> sampletext.txt");
         }
     });
 }
@@ -136,15 +137,15 @@ function hasPathto(mst, from, destination)
         let phrase = vertex;
         for(let i = 0; i < mst[phrase].length; i++)
         {
-            console.log("from i s", from, "d is ", destination, " comparing against ", mst[phrase][i]);
+            //console.log("from i s", from, "d is ", destination, " comparing against ", mst[phrase][i]);
             if(mst[phrase][i][1] == destination && mst[phrase][i][0] == from)  
             {
-                console.log("haspathto:", destination, "length ",mst[phrase][i][2], "true");
+                //console.log("haspathto:", destination, "length ",mst[phrase][i][2], "true");
                return true;
             }
         }
     }
-    console.log("haspathto:", destination, "false");
+    //console.log("haspathto:", destination, "false");
     return false;
 }
 //TODO rewwright
@@ -183,32 +184,30 @@ function generategraph(cityNum)
         {
             if(cities[key] != cities[val]) 
             { 
-                console.log(cities[key], " is key ", cities[val], " is value");
+                //console.log(cities[key], " is key ", cities[val], " is value");
                 if(hasPathto(didgraph, cities[val], cities[key])) //if cities[value] visited cities[key]
                 {
                     let foundPath = retrievePath(didgraph, cities[val] ,cities[key]); //if we already have a path from arg2 going to arg3 TODO
-                    console.log("foundPath is ", foundPath); 
+                    //console.log("foundPath is ", foundPath); 
                     didgraph[cities[key]].push([cities[key], cities[val], foundPath]);
                 } 
                 else
                 {
-                    console.log("elsed for");
+                    //console.log("elsed for");
                     didgraph[cities[key]].push([cities[key], cities[val], Math.floor(Math.random() * 100).toString()]);
                 }
             }
         }
-        console.log(didgraph);
+        //console.log(didgraph);
     }
     return didgraph;
 }
 //this function generates cleaned text
-function interfaceF()
+function graphGen() //rename this
 {
-    let data = parseText();
+    //let data = parseText(); 
     //let list = adjList(data);
-    let genlist = generategraph(4); 
-    //console.log(genlist);
-    //naive write approach
+    let genlist = generategraph(4);  //TODO
     let keys = Object.keys(genlist);
     let hm = "";
     for(vertex in genlist)
@@ -224,4 +223,18 @@ function interfaceF()
     }
     generateFile(hm);
 }
-interfaceF();
+
+function testmst()
+{
+
+    let data = parseText();
+    let list = adjList(data);
+    let startTime = performance.now();
+    let mst = prims(list);
+    let endTime = performance.now();
+    let delta =  endTime - startTime; //outputs in milliseconds i belive
+    //console.log(mst);
+    console.log("elapsed time is ", (delta * 0.001), " seconds");//
+}
+graphGen();
+testmst();
