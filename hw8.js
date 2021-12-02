@@ -135,6 +135,7 @@ function generategraph(cityNum)
     let didgraph = {};
     let citynum = cityNum;
     let cities = [];
+    //if we have a from -> to distance, to -> from is going to have the same distance
     for(let i = 0; i < cityNum; i++)
     {
         let cityName = require("crypto").randomBytes(2).toString("hex");
@@ -147,6 +148,8 @@ function generategraph(cityNum)
         {
             if(cities[a] != cities[i])
             {
+                //if didgraph has 
+                    //
                 didgraph[cities[i]].push([cities[i], cities[a], Math.floor(Math.random() * 100).toString()]);
             }
         }
@@ -170,12 +173,14 @@ function interfaceF()
         for(let i = 0; i < genlist[phrase].length; i++)
         {
             let thing = genlist[phrase][i].toString(); //we could comma separate here
+            thing = thing.replaceAll(',',' ');
+            console.log(thing);
             hm = hm + thing + "\n";
         }
     }
     //console.log("hm is before", hm); //we have a comma separated string of values
     let regex = /([a-zA-Z0-9]{4})(,)([a-zA-Z0-9]{4})(,)([a-zA-Z0-9]{2}|[a-zA-Z0-9]{1}),?(\R)?/gm
-    hm.replace(regex);
+    //hm.replace(regex);
 
     //let parts = hm.split(',')
     //let output = [];
@@ -187,7 +192,7 @@ function interfaceF()
     //console.log("after", output);
     //generateFile(output);
      
-    console.log(hm);
+   // console.log(hm, " is hm");
     generateFile(hm);
     //generateFile(genlist); //brings sampletext.txt into existence TODO
     //let startTime = performance.now(); 
