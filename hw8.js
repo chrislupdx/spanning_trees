@@ -148,105 +148,46 @@ function generategraph(cityNum)
             if(cities[a] != cities[i])
             {
                 didgraph[cities[i]].push([cities[i], cities[a], Math.floor(Math.random() * 100).toString()]);
-                //didgraph[cities[i]].push([cities[i], cities[a], Math.floor(Math.random() * 100).toString(), '\n'])
             }
         }
     }
     return didgraph;
 }
+//this function generates cleaned text
 function interfaceF()
 {
     let data = parseText();
-    let list = adjList(data);
-    let genlist = generategraph(4);
+    //let list = adjList(data);
+    let genlist = generategraph(4); 
     console.log(genlist);
-    let stringed = JSON.stringify(genlist);
-    let regex = /[!#$%"'&()*+,-./:;<=>?@[\]^_`{|}~]/g;
-    let nospacesresult = stringed.replace(regex,' ');
-    let trimed = nospacesresult.replace(/\s+/g, ' ');
-    let ugh = trimed.toString();
-   
-    //this transforms the -> into array
     let keys = Object.keys(genlist);
     let hm = "";
-
-    //pushing the individual paths
     for( vertex in genlist)
     {
         let phrase = vertex;
         for(let i = 0; i < genlist[phrase].length; i++)
         {
             let thing = genlist[phrase][i].toString();
+            console.log(thing);
             hm = hm + thing + ",";
         }
     }
-    
-    //copy the contents of hm, parse
+    console.log("hm is before", hm); //we have a comma separated string of values
+    //let regex = /([a-zA-Z0-9]{4})(,)([a-zA-Z0-9]{4})(,)([a-zA-Z0-9]{2}|[a-zA-Z0-9]{1}),?(\R)?/gm
+    //hm.replace(regex);
 
-    //i need a regex that replaces ever 3rd comma with a newline
-    //hm = hm.replace(/((?:,[^,]*){2}),/g, '\n');
-    //hm = hm.replace(/((.*?,){3}. '\n')\s/g, '\n'); //didn't work
-    //hm = hm.replace(/((?:.*?\s){2}.*?)\s/g, '$1<br />');
-
-    console.log("hm is", hm); //we have a comma separated string of values
-    let newstring = ""; 
-    //replace every fourth comma in this string with a newline character
-    let count = 0;
-    for(let i = 0; i < hm.length - 1; i++)
+    let parts = hm.split(',')
+    let output = [];
+    for(let i = 0; i < parts.length - 1; i += 3)
     {
-        if(hm[i] == "," && count == 3)
-        {
-            count = 0;
-            hm[i] = '\n';
-        }
-        count += 1;
+        let part = parts.slice(i, i+3);
+        output.push(part);
     }
-    console.log(count, " is count");
-    console.log(hm);
-    generateFile(hm);
-
-    //let how = hm.replace(regex, '');
-    //console.log(how);
-    
-    //let x = 'abc abc abc 2 \n asd asd asd 3'
-
-    //trimed = trimed.replace(/((?:.*?\s){2}.*?)\s/g, '\n');
-    //generateFile(ugh);
-    //let res = [];
-    //}
-    //console.log(res)
-    //generateFile(res);
-    //let done = "";
-        //console.log(done);
-    //let count = 0;
-    //for(let i = 0; i < nospacesresult.length; i++)
-    //{
-    //    if(nospacesresult[i] == " ")
-    //    {
-    //        console.log("space");
-    //        //assuming there is a space in the front, every fourth space gets a \n
-    //        //console.log(i, " is a space");
-    //        //count++;
-    //        //if(count == 4)
-    //        //{
-    //            nospacesresult[i] = "A";
-    //         //   count = 1; //set it back to 1
-    //        //}
-    //    }
-    //}
-    //let res = nospacesresult.replace(/((?:\S*\s){4}.*?)\s/g, "\n");
-    //console.log(res);
-    //let count = 0;    
-    //for(let i = 0; i < nospacesresult.length; i++)
-    //{
-    //    console.log(
-    //}
-    //let spacedresult = nospaces.result.replace(regtwo, 
-    //    every 4 items should be newlined 
-    //console.log(nospacesresult);
-    //generateFile(genlist); //brings sampletext.txt into existence
-    //let startTime = performance.now();
-    //let mst = prims(list);
+    console.log("after", output);
+//    generateFile(output);
+    //generateFile(genlist); //brings sampletext.txt into existence TODO
+    //let startTime = performance.now(); 
+    //let mst = prims(list); 
     //let endTime = performance.now();
     //let delta =  endTime - startTime; //outputs in milliseconds i belive
     //console.log(mst);
