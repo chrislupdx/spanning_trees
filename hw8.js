@@ -128,8 +128,9 @@ function generateFile(stuff)
     });
 }
 
+//TODO rewrite add from as acheck
 //traverses the object's definitions for a matching path
-function hasPathto(mst, destination)
+function hasPathto(mst, from, destination)
 {
  //   console.log("looking for ", destination);
     for (vertex in mst)
@@ -137,10 +138,11 @@ function hasPathto(mst, destination)
         let phrase = vertex;
         for(let i = 0; i < mst[phrase].length; i++)
         {
-//            console.log("d is ", destination, " comp is ", mst[phrase][i][1])
+            console.log("from i s", from, "d is ", destination, " comparing against ", mst[phrase][i]);
   //          console.log("mst[phrase[i] is ", mst[phrase][i]);
             //if(mst[phrase][i][1] == destination)
-            if(mst[phrase][i][1] == destination && mst[phrase][i][2])
+            //if(mst[phrase][i][1] == destination && mst[phrase][i][2])  //TODO this isn't right 
+            if(mst[phrase][i][1] == destination && mst[phrase][i][0] == from)  //TODO this isn't right 
             {
                 console.log("haspathto:", destination, "length ",mst[phrase][i][2], "true");
                return true;
@@ -150,17 +152,18 @@ function hasPathto(mst, destination)
     console.log("haspathto:", destination, "false");
     return false;
 }
-
-function retrievePath(mst, destination)
+//TODO rewwright
+function retrievePath(mst, from ,destination) //destination is to?
 {
+//    console.log("in rp");
     for (vertex in mst)
     {
         let phrase = vertex;
         for(let i = 0; i < mst[phrase].length; i++)
         {
-            if(mst[phrase][i][0] == destination && mst[phrase][i][2])
+            if(mst[phrase][i][0] == destination) //TODO
             {
-                console.log(mst[phrase][i][0], " is match to ", destination, "the whole thing", mst[phrase][i]);
+ //               console.log(mst[phrase][i][0], " is match to ", destination, "the whole thing", mst[phrase][i]);
                 let val = mst[phrase][i][2];
                 return val;
             }
@@ -184,20 +187,18 @@ function generategraph(cityNum)
         didgraph[cities[key]] = [];
         for(let val = 0; val < cities.length; val++)  //path # = cities - 1
         {
-            if(cities[val] != cities[key]) 
-            { //this should be the second and onewards
-
+            if(cities[key] != cities[val]) 
+            { 
                 console.log(cities[key], " is key ", cities[val], " is value");
-                //if we didn't already do a path from the other way
-                if(hasPathto(didgraph, cities[key])) //if there is a path from a -> i already TODO
+                if(hasPathto(didgraph, cities[val], cities[key])) //if cities[value] visited cities[key]
                 {
-                    let foundPath = retrievePath(didgraph, cities[val]); //if we already have a papth going to arg2 TODO
-                    console.log(cities[key], " is i", cities[val], " is cities[a] ", foundPath, " is foundpath");
+                    let foundPath = retrievePath(didgraph, cities[val] ,cities[key]); //if we already have a path from arg2 going to arg3 TODO
+                    //console.log(cities[key], " is key", cities[val], " is val", foundPath, " is foundpath");
                     didgraph[cities[key]].push([cities[key], cities[val], foundPath]);
                 } 
                 else
                 {
-                    //console.log("elsed for");
+                    console.log("elsed for");
                     didgraph[cities[key]].push([cities[key], cities[val], Math.floor(Math.random() * 100).toString()]);
                 }
             }
