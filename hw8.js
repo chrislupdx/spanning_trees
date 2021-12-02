@@ -4,7 +4,6 @@ function parseText()
 {
     //const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/city-pairs.txt', "utf8"); //parse the file
     const fileData = fs.readFileSync('/home/chlu/common/Documents/350/hw8/sampletext.txt', "utf8"); //parse the file
-    console.log(fileData);
     const arrData = fileData.split("\n");  //parse this into an array by newline character
     const cleaned = [];
     for(let i = 0; i < (arrData.length - 1); i++)
@@ -206,7 +205,7 @@ function generategraph(cityNum)
 //this function generates cleaned text
 function graphGen() //rename this
 {
-    let genlist = generategraph(4);  //TODO
+    let genlist = generategraph(150);  //TODO
     let keys = Object.keys(genlist);
     let hm = "";
     for(vertex in genlist)
@@ -234,5 +233,5 @@ function testmst()
     console.log(mst);
     console.log("elapsed time is ", (delta * 0.001), " seconds");//
 }
-graphGen();
+//graphGen();
 testmst();
