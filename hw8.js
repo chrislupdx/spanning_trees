@@ -128,21 +128,16 @@ function generateFile(stuff)
     });
 }
 
-//TODO rewrite add from as acheck
 //traverses the object's definitions for a matching path
 function hasPathto(mst, from, destination)
 {
- //   console.log("looking for ", destination);
     for (vertex in mst)
     {
         let phrase = vertex;
         for(let i = 0; i < mst[phrase].length; i++)
         {
             console.log("from i s", from, "d is ", destination, " comparing against ", mst[phrase][i]);
-  //          console.log("mst[phrase[i] is ", mst[phrase][i]);
-            //if(mst[phrase][i][1] == destination)
-            //if(mst[phrase][i][1] == destination && mst[phrase][i][2])  //TODO this isn't right 
-            if(mst[phrase][i][1] == destination && mst[phrase][i][0] == from)  //TODO this isn't right 
+            if(mst[phrase][i][1] == destination && mst[phrase][i][0] == from)  
             {
                 console.log("haspathto:", destination, "length ",mst[phrase][i][2], "true");
                return true;
@@ -155,13 +150,12 @@ function hasPathto(mst, from, destination)
 //TODO rewwright
 function retrievePath(mst, from ,destination) //destination is to?
 {
-//    console.log("in rp");
     for (vertex in mst)
     {
         let phrase = vertex;
         for(let i = 0; i < mst[phrase].length; i++)
         {
-            if(mst[phrase][i][0] == destination) //TODO
+            if(mst[phrase][i][1] == destination && mst[phrase][i][0] == from) //TODO
             {
  //               console.log(mst[phrase][i][0], " is match to ", destination, "the whole thing", mst[phrase][i]);
                 let val = mst[phrase][i][2];
@@ -193,7 +187,7 @@ function generategraph(cityNum)
                 if(hasPathto(didgraph, cities[val], cities[key])) //if cities[value] visited cities[key]
                 {
                     let foundPath = retrievePath(didgraph, cities[val] ,cities[key]); //if we already have a path from arg2 going to arg3 TODO
-                    //console.log(cities[key], " is key", cities[val], " is val", foundPath, " is foundpath");
+                    console.log("foundPath is ", foundPath); 
                     didgraph[cities[key]].push([cities[key], cities[val], foundPath]);
                 } 
                 else
