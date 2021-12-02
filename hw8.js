@@ -159,7 +159,9 @@ function interfaceF()
     let data = parseText();
     //let list = adjList(data);
     let genlist = generategraph(4); 
-    console.log(genlist);
+    //console.log(genlist);
+    
+    //naive write approach
     let keys = Object.keys(genlist);
     let hm = "";
     for( vertex in genlist)
@@ -167,24 +169,26 @@ function interfaceF()
         let phrase = vertex;
         for(let i = 0; i < genlist[phrase].length; i++)
         {
-            let thing = genlist[phrase][i].toString();
-            console.log(thing);
-            hm = hm + thing + ",";
+            let thing = genlist[phrase][i].toString(); //we could comma separate here
+            hm = hm + thing + "\n";
         }
     }
-    console.log("hm is before", hm); //we have a comma separated string of values
-    //let regex = /([a-zA-Z0-9]{4})(,)([a-zA-Z0-9]{4})(,)([a-zA-Z0-9]{2}|[a-zA-Z0-9]{1}),?(\R)?/gm
-    //hm.replace(regex);
+    //console.log("hm is before", hm); //we have a comma separated string of values
+    let regex = /([a-zA-Z0-9]{4})(,)([a-zA-Z0-9]{4})(,)([a-zA-Z0-9]{2}|[a-zA-Z0-9]{1}),?(\R)?/gm
+    hm.replace(regex);
 
-    let parts = hm.split(',')
-    let output = [];
-    for(let i = 0; i < parts.length - 1; i += 3)
-    {
-        let part = parts.slice(i, i+3);
-        output.push(part);
-    }
-    console.log("after", output);
-//    generateFile(output);
+    //let parts = hm.split(',')
+    //let output = [];
+    //for(let i = 0; i < parts.length - 1; i += 3)
+    //{
+    //    let part = parts.slice(i, i+3);
+    //    output.push(part);
+    //}
+    //console.log("after", output);
+    //generateFile(output);
+     
+    console.log(hm);
+    generateFile(hm);
     //generateFile(genlist); //brings sampletext.txt into existence TODO
     //let startTime = performance.now(); 
     //let mst = prims(list); 
