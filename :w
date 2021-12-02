@@ -138,7 +138,7 @@ function hasPathto(mst, destination)
         for(let i = 0; i < mst[phrase].length; i++)
         {
 //            console.log("d is ", destination, " comp is ", mst[phrase][i][1])
-  //          console.log("mst[phrase[i] is ", mst[phrase][i]);
+            console.log("mst[phrase[i] is ", mst[phrase][i]);
             //if(mst[phrase][i][1] == destination)
             if(mst[phrase][i][1] == destination && mst[phrase][i][2])
             {
@@ -187,7 +187,7 @@ function generategraph(cityNum)
             if(cities[val] != cities[key]) 
             { //this should be the second and onewards
 
-                console.log(cities[key], " is key ", cities[val], " is value");
+                console.log(cities[key], " is key ", cities[value], " is value");
                 //if we didn't already do a path from the other way
                 if(hasPathto(didgraph, cities[key])) //if there is a path from a -> i already TODO
                 {

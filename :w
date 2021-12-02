@@ -131,18 +131,18 @@ function generateFile(stuff)
 //traverses the object's definitions for a matching path
 function hasPathto(mst, destination)
 {
- //   console.log("looking for ", destination);
+    console.log("looking for ", destination);
     for (vertex in mst)
     {
         let phrase = vertex;
         for(let i = 0; i < mst[phrase].length; i++)
         {
 //            console.log("d is ", destination, " comp is ", mst[phrase][i][1])
-  //          console.log("mst[phrase[i] is ", mst[phrase][i]);
+            console.log(mst[phrase][i]);
             //if(mst[phrase][i][1] == destination)
             if(mst[phrase][i][1] == destination && mst[phrase][i][2])
             {
-                console.log("haspathto:", destination, "length ",mst[phrase][i][2], "true");
+                console.log("haspathto:", destination, "true");
                return true;
             }
         }
@@ -158,9 +158,10 @@ function retrievePath(mst, destination)
         let phrase = vertex;
         for(let i = 0; i < mst[phrase].length; i++)
         {
-            if(mst[phrase][i][0] == destination && mst[phrase][i][2])
+            if(mst[phrase][i][1] == destination)
             {
-                console.log(mst[phrase][i][0], " is match to ", destination, "the whole thing", mst[phrase][i]);
+                console.log(mst[phrase][i][1], " is match to ", destination);
+                console.log("the whole thing", mst[phrase][i]);
                 let val = mst[phrase][i][2];
                 return val;
             }
@@ -179,26 +180,26 @@ function generategraph(cityNum)
         let cityName = require("crypto").randomBytes(2).toString("hex");
         cities.push(cityName);
     }
-    for(let key = 0; key < cities.length; key++)
+    for(let i = 0; i < cities.length; i++)
     {
-        didgraph[cities[key]] = [];
-        for(let val = 0; val < cities.length; val++)  //path # = cities - 1
+        didgraph[cities[i]] = [];
+        for(let a = 0; a < cities.length; a++)  //path # = cities - 1
         {
-            if(cities[val] != cities[key]) 
+            if(cities[a] != cities[i]) 
             { //this should be the second and onewards
 
-                console.log(cities[key], " is key ", cities[val], " is value");
+                console.log(cities[a], " is a ", cities[i], " is i");
                 //if we didn't already do a path from the other way
-                if(hasPathto(didgraph, cities[key])) //if there is a path from a -> i already TODO
+                if(hasPathto(didgraph, cities[i])) //if there is a path from a -> i already
                 {
-                    let foundPath = retrievePath(didgraph, cities[val]); //if we already have a papth going to arg2 TODO
-                    console.log(cities[key], " is i", cities[val], " is cities[a] ", foundPath, " is foundpath");
-                    didgraph[cities[key]].push([cities[key], cities[val], foundPath]);
+                    let foundPath = retrievePath(didgraph, cities[a]); //if we already have a papth going to arg2
+                    console.log("investiating", cities[a], foundPath, " is foundpath");
+                    didgraph[cities[i]].push([cities[i], cities[a], foundPath]);
                 } 
                 else
                 {
                     //console.log("elsed for");
-                    didgraph[cities[key]].push([cities[key], cities[val], Math.floor(Math.random() * 100).toString()]);
+                    didgraph[cities[i]].push([cities[i], cities[a], Math.floor(Math.random() * 100).toString()]);
                 }
             }
         }
